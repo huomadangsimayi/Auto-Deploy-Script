@@ -25,13 +25,13 @@
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/huomadangsimayi/Auto-Deploy-Script.git
-cd Auto-Deploy-Script
+git clone https://github.com/huomadangsimayi/FreshDeploy.git
+cd FreshDeploy
 ````
 
 ### 2. 配置参数
 
-编辑 `deploy.sh` 文件顶部的变量，填写你自己的密码和端口配置：
+编辑 `Deploy.sh` 文件顶部的变量，填写你自己的密码和端口配置：
 
 ```bash
 # 配置参数
@@ -73,8 +73,8 @@ mv /path/to/your-app.jar /opt/app/backend.jar
 ### 4. 执行部署脚本
 
 ```bash
-chmod +x deploy.sh
-sudo ./deploy.sh
+chmod +x Deploy.sh
+sudo ./Deploy.sh
 ```
 
 > 建议使用 `root` 用户或加 `sudo` 执行，以确保所有安装与服务注册顺利完成。
