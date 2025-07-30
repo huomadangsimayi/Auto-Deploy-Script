@@ -4,7 +4,7 @@
 
 ---
 
-## 🛒功能预览
+## 功能预览
 
 该脚本将自动安装和配置以下服务：
 
@@ -20,7 +20,7 @@
 
 ---
 
-## 🔔使用说明
+## 使用说明
 
 ### 1. 克隆项目
 
@@ -42,7 +42,7 @@ MINIO_ACCESS_KEY="your_minio_access_key"   # MinIO Access Key
 MINIO_SECRET_KEY="your_minio_secret_key"   # MinIO Secret Key
 ```
 
-**💎注意：请务必替换默认密码和密钥，防止安全风险！**
+**注意：请务必替换默认密码和密钥，防止安全风险！**
 
 ---
 
@@ -50,7 +50,7 @@ MINIO_SECRET_KEY="your_minio_secret_key"   # MinIO Secret Key
 
 脚本会自动创建目录，但你需要**手动放置应用文件**：
 
-- #### 后端应用
+#### 后端应用
 
 将 Spring Boot 打包好的 `jar` 文件上传并命名为 `backend.jar`：
 
@@ -58,7 +58,7 @@ MINIO_SECRET_KEY="your_minio_secret_key"   # MinIO Secret Key
 mv /path/to/your-app.jar /opt/app/backend.jar
 ```
 
-- #### 前端项目（可选）
+#### 前端项目（可选）
 
 如有前端页面，请将 HTML/CSS/JS 文件上传到：
 
@@ -81,7 +81,7 @@ sudo ./deploy.sh
 
 ---
 
-## 🗝️部署验证
+## 部署验证
 
 部署完成后，脚本会输出各项服务状态。
 
@@ -97,7 +97,7 @@ systemctl status minio
 
 ---
 
-## 🔗访问地址
+## 访问地址
 
 以下为默认访问入口：
 
@@ -109,17 +109,17 @@ systemctl status minio
 
 ---
 
-## 🪡日志管理
+## 日志管理
 
 脚本会将关键日志统一至 `/var/log/app-logs/` 目录下：
 
-- 后端日志：
+后端日志：
 
   ```bash
   tail -f /var/log/app-logs/backend.log
   ```
 
-- Nginx 前端访问日志：
+Nginx 前端访问日志：
 
   ```bash
   tail -f /var/log/app-logs/frontend-access.log
@@ -127,7 +127,7 @@ systemctl status minio
 
 ---
 
-## 💎注意事项
+## 注意事项
 
 - 本脚本适用于 **CentOS 7与Rocky 9**，在其他系统版本未测试
 - **强烈建议**在生产环境中配置更复杂的密码，并禁止 root 运行后端服务
