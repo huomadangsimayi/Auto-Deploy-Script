@@ -1,92 +1,91 @@
-好的，这是您可以直接复制的完整 Markdown 代码。
+# FreshDeploy
 
-```markdown
-# 一键部署全栈应用环境脚本
+本项目提供一键式自动部署shell脚本，适用于在 **CentOS 7 (笔者使用的是Rocky9.6)** 上搭建完整的 Web 应用后端基础环境，包括数据库、缓存、对象存储、Nginx 反向代理与 Java 运行环境等组件。
 
-这是一个用于在 CentOS 7 服务器上自动化部署和配置完整后端服务环境的 Shell 脚本。该脚本能够自动安装并配置 Nginx、Java (OpenJDK 17)、MySQL 8、Redis 和 MinIO，并设置好相关的系统服务和防火墙规则。
+---
 
-## ✨ 功能特性
+## 🛒功能预览
 
-*   **环境自动化**：自动安装所有必要的开发工具和依赖项。
-*   **Java 后端服务**：安装 Java 17 环境，并为您的后端 JAR 包应用设置 systemd 服务，实现开机自启和进程守护。
-*   **数据库与缓存**：安装并配置 MySQL 8 和 Redis，并将其设置为开机自启。
-*   **对象存储**：安装并配置 MinIO 服务器，提供 S3 兼容的对象存储服务。
-*   **反向代理**：配置 Nginx 作为反向代理，统一通过 80 端口代理前端和后端 API 服务。
-*   **服务管理**：为后端应用、MinIO 等关键组件创建并启用 systemd 服务，方便启停和管理。
-*   **防火墙配置**：自动配置防火墙，开放 Nginx 和后端服务所需的端口。
-*   **日志管理**：创建集中的日志目录，方便排查问题。
+该脚本将自动安装和配置以下服务：
 
-## ⚙️ 先决条件
+- **JDK 17**
+- **MySQL 8**（可设置 root 密码）
+- **Redis**
+- **MinIO**（对象存储）
+- **Nginx**（含 API 代理配置）
+- **Spring Boot 后端服务**
+- **前端静态页面**
+- **开放必要防火墙端口**
+- **日志管理配置**
 
-*   一台运行 **CentOS 7** 的服务器。
-*   必须拥有 **root** 权限才能执行此脚本。
-*   你需要提前准备好打包为 `.jar` 格式的后端应用程序。
+---
 
-## 🚀 如何使用
+## 🔔使用说明
 
-### 1. 下载脚本
-
-你可以通过 `git` 克隆本仓库，或者直接下载脚本文件。
+### 1. 克隆项目
 
 ```bash
-# 克隆仓库
-git clone <你的仓库地址>
-cd <你的仓库目录>
-
-# 或者直接下载
-wget https://raw.githubusercontent.com/<你的用户名>/<你的仓库名>/main/deploy.sh
-```
+git clone https://github.com/huomadangsimayi/Auto-Deploy-Script.git
+cd Auto-Deploy-Script
+````
 
 ### 2. 配置参数
 
-在执行脚本之前，请务必使用文本编辑器（如 `nano` 或 `vim`）打开 `deploy.sh` 文件，修改文件头部的配置参数。
+编辑 `deploy.sh` 文件顶部的变量，填写你自己的密码和端口配置：
 
 ```bash
-#!/bin/bash
-
 # 配置参数
-BACKEND_PORT=8080               # 后端 Spring Boot 应用的端口
-NGINX_PORT=80                   # Nginx 对外暴露的端口
-DB_PASSWORD="your_strong_password" # 设置新的 MySQL root 密码
-MINIO_ACCESS_KEY="your_minio_access_key" # 设置 MinIO 的 Access Key
-MINIO_SECRET_KEY="your_minio_secret_key" # 设置 MinIO 的 Secret Key
-
-# ... 脚本其余部分
+BACKEND_PORT=8080                          # 后端服务端口
+NGINX_PORT=80                              # Nginx 对外端口
+DB_PASSWORD="your_strong_password"         # MySQL root 密码
+MINIO_ACCESS_KEY="your_minio_access_key"   # MinIO Access Key
+MINIO_SECRET_KEY="your_minio_secret_key"   # MinIO Secret Key
 ```
 
-**请务必将 `￥￥￥` 替换为强密码和安全的密钥！**
+**💎注意：请务必替换默认密码和密钥，防止安全风险！**
 
-### 3. 放置应用文件
+---
 
-脚本会自动创建所需目录，但你需要手动将应用文件放置到正确的位置。
+### 3. 准备文件
 
-*   **后端应用**: 将你的 Java 应用（例如 `my-app.jar`）上传到服务器，重命名为 `backend.jar` 并移动到 `/opt/app/` 目录下。
-    ```bash
-    # 如果目录不存在，脚本会自动创建
-    # 你需要确保 backend.jar 文件最终位于此路径
-    mv /path/to/your/app.jar /opt/app/backend.jar
-    ```
+脚本会自动创建目录，但你需要**手动放置应用文件**：
 
-*   **前端项目** (可选): 将你的前端静态文件（HTML, CSS, JavaScript 等）放置在 `/usr/share/nginx/html` 目录下。脚本会在这里创建一个简单的占位符页面。
+- #### 后端应用
 
-### 4. 执行脚本
+将 Spring Boot 打包好的 `jar` 文件上传并命名为 `backend.jar`：
 
-授予脚本执行权限并运行。
+```bash
+mv /path/to/your-app.jar /opt/app/backend.jar
+```
+
+- #### 前端项目（可选）
+
+如有前端页面，请将 HTML/CSS/JS 文件上传到：
+
+```bash
+/usr/share/nginx/html
+```
+
+> 如果不上传，脚本默认部署一个简单的占位页。
+
+---
+
+### 4. 执行部署脚本
 
 ```bash
 chmod +x deploy.sh
-./deploy.sh
+sudo ./deploy.sh
 ```
 
-脚本会自动完成所有安装和配置工作。
+> 建议使用 `root` 用户或加 `sudo` 执行，以确保所有安装与服务注册顺利完成。
 
-## ✅ 验证部署
+---
 
-脚本执行完毕后，会输出各个服务的状态和访问地址。
+## 🗝️部署验证
 
-### 查看服务状态
+部署完成后，脚本会输出各项服务状态。
 
-你可以随时通过以下命令检查核心服务的运行状态：
+你也可以手动检查服务运行情况：
 
 ```bash
 systemctl status nginx
@@ -96,34 +95,46 @@ systemctl status redis
 systemctl status minio
 ```
 
-### 访问应用
+---
 
-部署完成后，你可以通过以下地址访问：
+## 🔗访问地址
 
-*   **前端应用**: `http://<你的服务器IP>`
-*   **后端 API**: `http://<你的服务器IP>/api`
-*   **MinIO 控制台**: `http://<你的服务器IP>:9000` (使用你配置的 `MINIO_ACCESS_KEY` 和 `MINIO_SECRET_KEY` 登录)
+以下为默认访问入口：
 
-## 📜 日志管理
+- **前端页面**：`http://<你的服务器IP>`
+- **后端 API**：`http://<你的服务器IP>/api`
+- **MinIO 控制台**：`http://<你的服务器IP>:9000`
 
-为了方便调试，脚本将关键日志软链接到了 `/var/log/app-logs/` 目录。
+> 登录 MinIO 控制台时，使用你在脚本中配置的 Access Key 和 Secret Key。
 
-*   **查看后端应用日志**:
-    ```bash
-    tail -f /var/log/app-logs/backend.log
-    ```
-*   **查看 Nginx 访问日志**:
-    ```bash
-    tail -f /var/log/app-logs/frontend-access.log
-    ```
+---
 
-## ⚠️ 注意事项
+## 🪡日志管理
 
-*   本脚本专为 CentOS 7 设计，在其他操作系统上可能无法正常运行。
-*   为了安全起见，强烈建议不要在生产环境中直接使用 root 密码和默认密钥，请务必修改为复杂且唯一的凭证。
-*   脚本会自动从 MySQL 的初始日志中提取临时密码来设置新密码，请确保 `/var/log/mysqld.log` 文件可读。
-*   在生产环境中，建议进行更详细的安全加固，例如为应用创建非 root 用户、配置更严格的防火墙规则等。
+脚本会将关键日志统一至 `/var/log/app-logs/` 目录下：
 
-## 📄 许可证
+- 后端日志：
 
-本项目采用 MIT 许可证。详情请参阅 `LICENSE` 文件。```
+  ```bash
+  tail -f /var/log/app-logs/backend.log
+  ```
+
+- Nginx 前端访问日志：
+
+  ```bash
+  tail -f /var/log/app-logs/frontend-access.log
+  ```
+
+---
+
+## 💎注意事项
+
+- 本脚本适用于 **CentOS 7与Rocky 9**，在其他系统版本未测试
+- **强烈建议**在生产环境中配置更复杂的密码，并禁止 root 运行后端服务
+- 为增强安全性的建议：
+  
+  - 创建专用服务用户运行后端服务
+  - 配置防火墙限制访问范围
+  - 配置 HTTPS 和域名等额外安全措施
+
+---
