@@ -37,12 +37,12 @@ cd FreshDeploy
 # 配置参数
 BACKEND_PORT=8080                          # 后端服务端口
 NGINX_PORT=80                              # Nginx 对外端口
-DB_PASSWORD="your_strong_password"         # MySQL root 密码
-MINIO_ACCESS_KEY="your_minio_access_key"   # MinIO Access Key
-MINIO_SECRET_KEY="your_minio_secret_key"   # MinIO Secret Key
+DB_PASSWORD="￥￥￥"                        # MySQL root 密码
+MINIO_ACCESS_KEY="￥￥￥"                   # MinIO Access Key
+MINIO_SECRET_KEY="￥￥￥"                   # MinIO Secret Key
 ```
 
-**注意：请务必替换默认密码和密钥，防止安全风险！**
+**注意：请务必替换默认密码“￥￥￥”和密钥“￥￥￥”，防止安全风险！**
 
 ---
 
