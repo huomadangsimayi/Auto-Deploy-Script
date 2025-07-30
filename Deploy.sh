@@ -3,9 +3,9 @@
 #配置参数
 BACKEND_PORT=8080
 NGINX_PORT=80
-DB_PASSWORD="huomadangsimayi"
-MINIO_ACCESS_KEY="huomadangsimayi"
-MINIO_SECRET_KEY="huomadangsimayi"
+DB_PASSWORD="￥￥￥"
+MINIO_ACCESS_KEY="￥￥￥"
+MINIO_SECRET_KEY="￥￥￥"
 
 #检查root权限
 if [ "$(id -u)" != "0" ];then
